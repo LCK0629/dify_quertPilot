@@ -24,6 +24,16 @@ The MVP will investigate numerical contributions and show supporting calculation
 - **Frontend:** React
 - **Version control:** GitHub
 
+## Latest product decision update / 最新产品决策（2026-11-23）
+
+The project owner **approved five MVP product recommendations** (NovaMart/SGD/Singapore time, demo revenue policy, sales-focused MVP, English-first questions, and structured-intent → governed SQL principle). This is **not** approval of PRD v1 in full, detailed metric contracts, the Dify implementation choice, security architecture, or the Phase 1 development gate.
+
+项目负责人已批准五项 MVP 产品方向，但**尚未批准** PRD v1 全文、详细指标合同、Dify 最终选型、安全架构或开发准入。系统尚未开始开发。
+
+- [PRD v1.0 Draft / 新版需求草案](docs/phase-1/09_PRD_V1_0_DRAFT.md)
+- [Metric Definition Review / 指标审核](docs/phase-1/10_METRIC_DEFINITION_REVIEW.md)
+- [Product Decision Record / 产品决策日志](docs/phase-1/11_PRODUCT_DECISION_RECORD.md)
+
 ## Phase 1 planning pack / 第一阶段文件
 
 | Document | Description / 说明 |
