@@ -11,6 +11,14 @@ QueryPilot AI is a secure, retail-focused natural-language analytics workbench. 
 
 QueryPilot AI 是面向零售行业的安全自然语言分析工作平台；目标是输出可授权、可复核的数据分析，而不是直接执行不受控制的 AI SQL。
 
+## November 23 update / 11 月 23 日决策更新
+
+Five product-scope recommendations have been explicitly approved by the owner, and PRD v1 plus detailed metrics review drafts have been prepared. **Full PRD, metric edge rules, architecture, security and development authorization are still pending.** / 已批准五项产品方向并编制 PRD v1、指标审核草案；完整 PRD、边界规则、架构、安全及开发仍待独立批准。
+
+- [09 PRD v1.0 Draft](09_PRD_V1_0_DRAFT.md)
+- [10 Metric Definition Review](10_METRIC_DEFINITION_REVIEW.md)
+- [11 Product Decision Record](11_PRODUCT_DECISION_RECORD.md)
+
 ## File map / 文档目录
 
 1. [Research & User Validation](01_RESEARCH_AND_USER_VALIDATION.md) — Competitors, personas, research hypotheses and interview plan / 竞品、用户研究与验证方案
