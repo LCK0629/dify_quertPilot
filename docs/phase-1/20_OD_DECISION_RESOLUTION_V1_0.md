@@ -1,5 +1,7 @@
 # OD-01–OD-07 Decision Resolution v1.0
 
+> **Controlling disposition (2026-11-26):** [QP-APR-007](21_OD_DECISION_APPROVAL_RECORD.md) approves all seven policy decisions in the reviewed revision. Historical proposal labels below are retained for traceability. Independent verification and Development GO remain outstanding.
+
 **ID:** QP-DE-OD-001 | **Date:** 2026-11-26 | **Status:** FOR APPROVAL | **Owners:** BA + Database Engineer | **Gate:** NO-GO
 
 This is the first database decision-closure candidate under QP-APR-006. All seven decisions remain OPEN until their designated authority records acceptance. It supplements approved documents 14–16 and does not amend M01–M09. No implementation or tests have been performed.
