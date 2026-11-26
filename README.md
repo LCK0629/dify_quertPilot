@@ -3,9 +3,9 @@
 **A Secure, Evidence-Based Retail Analytics Workbench**  
 **安全、可验证、面向零售业务的 AI 数据分析工作平台**
 
-> **Status / 状态:** Phase 1 – Pre-Development Planning. MVP, metric, database design and development readiness plan baselines and seven OD policy decisions approved; architecture direction approved with conditions. **Development NO-GO.**
+> **Status / 状态:** Phase 1 – Pre-Development Planning. MVP, metric, database design and development readiness plan baselines and seven OD policy decisions and role/permission design approved; architecture direction approved with conditions. **Development NO-GO.**
 >
-> MVP、指标、数据库设计及开发准备计划基线已批准，系统架构方向附条件批准；七项 OD 政策已批准；完整 PRD、权限设计及开发准入仍待审核。
+> MVP、指标、数据库设计及开发准备计划基线已批准，系统架构方向附条件批准；七项 OD 政策及角色权限设计已批准；完整 PRD、安全注册表、数据库授权及开发准入仍待审核。
 
 ## Project vision / 项目目标
 
@@ -47,9 +47,11 @@ The project owner **approved five MVP product recommendations** (NovaMart/SGD/Si
 - [OD Decision Resolution v1.0](docs/phase-1/20_OD_DECISION_RESOLUTION_V1_0.md) — seven owner-approved policy dispositions; [approval QP-APR-007](docs/phase-1/21_OD_DECISION_APPROVAL_RECORD.md). Independent verification pending.
 - [Database Design v1.1 Change Proposal](docs/phase-1/DB_DESIGN_V1_1_CHANGE_PROPOSAL.md) — proposed security-registry and database authorization amendments; not approved.
 
-- [Role & Permission Matrix v1.0](docs/phase-1/22_ROLE_PERMISSION_MATRIX_V1_0.md) — FOR APPROVAL; proposed grants and disclosure rules, not deployed.
+- [Role & Permission Matrix v1.0](docs/phase-1/22_ROLE_PERMISSION_MATRIX_V1_0.md) — owner-approved design; [QP-APR-008](docs/phase-1/23_ROLE_PERMISSION_APPROVAL_RECORD.md). Independent verification pending; no actual grants deployed.
 
-Next: review and approve the permission matrix, identity/security registry and nonforgeable database scope binding, reconcile and sign off the PRD, close PRE-01–PRE-10, and obtain a separate Development GO decision. See the current decision index in [00 Start Here](docs/phase-1/00_START_HERE.md).
+- [Security Registry Data Model v1.0](docs/phase-1/24_SECURITY_REGISTRY_DATA_MODEL_V1_0.md) — FOR APPROVAL; separate proposed security schema and versioned authorization data model.
+
+Next: review the security registry, identity/session and nonforgeable database scope binding, reconcile and sign off the PRD, close PRE-01–PRE-10, and obtain a separate Development GO decision. See the current decision index in [00 Start Here](docs/phase-1/00_START_HERE.md).
 
 ## Phase 1 planning pack / 第一阶段文件
 
@@ -71,7 +73,7 @@ Phase 1 **draft documents** and **test specifications** have been prepared. They
 ## Next steps / 下一步
 
 1. Complete user/competitor evidence or explicit risk acceptance and full PRD alignment.
-2. Complete independent BA/DB/security reviews of the approved OD policies and proposed permission matrix.
+2. Complete independent BA/DB/security reviews of the approved OD and role/permission policies and proposed registry.
 3. Execute the approved readiness plan's decision-closure workflow and approve the evaluation specifications; do not begin implementation.
 4. Obtain separate development GO before implementation; no executed tests or working database claimed.
 
