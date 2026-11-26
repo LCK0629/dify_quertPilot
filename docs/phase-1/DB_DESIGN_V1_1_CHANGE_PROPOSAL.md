@@ -1,9 +1,11 @@
 # Database Design v1.1 — Change Proposal
 ID QP-DE-CP-001 | 2026-11-26 | FOR APPROVAL | Development NO-GO
 
-Read with approved 14/15/16, architecture 12/13, readiness 17/18, metric baseline 19 and OD resolution 20 approved by QP-APR-007 (21), and proposed permission matrix 22. This amendment candidate is not a replacement approved ERD or physical specification. Preserve retail grain, revenue arithmetic, historical snapshots, dataset targets and existing acceptance tests.
+Read with approved 14/15/16, architecture 12/13, readiness 17/18, metric baseline 19 and OD resolution 20 approved by QP-APR-007 (21), and permission matrix 22 approved by QP-APR-008 (23). This amendment candidate is not a replacement approved ERD or physical specification. Preserve retail grain, revenue arithmetic, historical snapshots, dataset targets and existing acceptance tests.
 
 ## Security registry candidate
+
+The eight-object sketch below is historical. [Security Registry Data Model v1.0 (24)](24_SECURITY_REGISTRY_DATA_MODEL_V1_0.md) is the current 15-object review candidate, not approved DDL.
 Propose separate security schema, outside the retail fact model. All objects below are logical candidates pending the Security Architect's permission matrix and identity ADR.
 
 | Object | Candidate key and fields |
@@ -13,7 +15,7 @@ Propose separate security schema, outside the retail fact model. All objects bel
 | permissions | permission_id PK; permission_code unique; status |
 | policy_versions | policy_version_id PK; checksum, approved_by, effective_at; immutable published version |
 | principal_role_assignments | assignment_id PK; principal_id and role_id FK; policy_version_id FK; valid_from, valid_until nullable; grant provenance |
-| role_permission_grants | grant_id PK; role_id, permission_id, policy_version_id FK; effect; unique role/permission/version; deny-overrides-allow proposed in 22, pending approval |
+| role_permission_grants | grant_id PK; role_id, permission_id, policy_version_id FK; effect; unique role/permission/version; deny-overrides-allow approved in 23 |
 | principal_store_scopes | scope_id PK; principal_id, store_id, policy_version_id FK; validity window; explicit grants only |
 | grant_audit | audit_id PK; actor principal FK, policy_version FK, action, target reference, redacted before/after, occurred_at, request_id; append-only |
 
@@ -59,8 +61,8 @@ Add synthetic identities for two disjoint store managers, units-only staff, M04-
 
 ## Required follow-up
 1. Owner approved OD-01–07 under QP-APR-007; BA/DB/Security independently verify the approved contracts.
-2. Review proposed role/capability/metric/dependency/disclosure matrix (22) and separately approve identity model.
-3. DB + Security complete registry specification and nonforgeable DB authorization ADR; review indexes, transaction isolation, permissions, inference and threat assumptions.
+2. Owner approved role/capability/metric/dependency/disclosure matrix (22/23); independent review and identity model approval remain pending.
+3. Review registry specification (24) and complete nonforgeable DB authorization ADR; review indexes, transaction isolation, permissions, inference and threat assumptions.
 4. Publish consolidated conceptual and physical v1.1 review candidates and obtain independent approvals; update PRD and readiness gates. No DDL, data generation, coding or test execution authorized.
 
-No changes to approved v1.0 documents. Proposed fifth schema and eight registry objects are not yet approved. Existing 12 business/governance logical entities remain unchanged.
+No changes to approved v1.0 documents. Proposed fifth schema and expanded 15-object registry in document 24 are not yet approved. Existing 12 business/governance logical entities remain unchanged.
