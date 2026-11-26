@@ -3,9 +3,9 @@
 **A Secure, Evidence-Based Retail Analytics Workbench**  
 **安全、可验证、面向零售业务的 AI 数据分析工作平台**
 
-> **Status / 状态:** Phase 1 – Pre-Development Planning (Draft / Not Approved). **No implementation is claimed.**
+> **Status / 状态:** Phase 1 – Pre-Development Planning. MVP, metric and database design baselines approved; architecture direction approved with conditions. **Development NO-GO.**
 >
-> 当前处于开发前规划阶段；**PRD、核心指标与架构尚未正式批准**，本仓库不代表已完成产品开发。
+> MVP、指标及数据库设计基线已批准，系统架构方向附条件批准；完整 PRD、剩余决策及开发准入仍待审核。
 
 ## Project vision / 项目目标
 
@@ -24,7 +24,7 @@ The MVP will investigate numerical contributions and show supporting calculation
 - **Frontend:** React
 - **Version control:** GitHub
 
-## Latest product decision update / 最新产品决策（2026-11-23）
+## Historical product decision update / 历史产品决策（2026-11-23）
 
 The project owner **approved five MVP product recommendations** (NovaMart/SGD/Singapore time, demo revenue policy, sales-focused MVP, English-first questions, and structured-intent → governed SQL principle). This is **not** approval of PRD v1 in full, detailed metric contracts, the Dify implementation choice, security architecture, or the Phase 1 development gate.
 
@@ -33,6 +33,15 @@ The project owner **approved five MVP product recommendations** (NovaMart/SGD/Si
 - [PRD v1.0 Draft / 新版需求草案](docs/phase-1/09_PRD_V1_0_DRAFT.md)
 - [Metric Definition Review / 指标审核](docs/phase-1/10_METRIC_DEFINITION_REVIEW.md)
 - [Product Decision Record / 产品决策日志](docs/phase-1/11_PRODUCT_DECISION_RECORD.md)
+
+## Current approval update / 当前审批状态（2026-11-26）
+
+- [Architecture v1.1](docs/phase-1/12_SYSTEM_ARCHITECTURE_SECURITY_DESIGN_V1_1.md) — [conditional approval](docs/phase-1/13_ARCHITECTURE_APPROVAL_RECORD.md).
+- [Conceptual ERD & Data Model v1.0](docs/phase-1/14_CONCEPTUAL_ERD_DATA_MODEL_V1_0.md) — approved baseline.
+- [Physical Database Design v1.0](docs/phase-1/15_PHYSICAL_DATABASE_DESIGN_V1_0.md) — approved baseline.
+- [Database Design Approval Record](docs/phase-1/16_DATABASE_DESIGN_APPROVAL_RECORD.md) — QP-APR-003/004; OD-01–07 remain open. GitHub design references summarize the Word candidates.
+
+Next formal deliverable: Development Readiness & Implementation Plan — For Approval. Full PRD sign-off, BA validation, security conditions and separate development authorization remain outstanding.
 
 ## Phase 1 planning pack / 第一阶段文件
 
@@ -53,11 +62,10 @@ Phase 1 **draft documents** and **test specifications** have been prepared. They
 
 ## Next steps / 下一步
 
-1. Validate the primary retail problems and user workflows / 验证用户需求。
-2. Review and approve MVP scope and metric definitions / 审批范围与 KPI 规则。
-3. Approve the data model and secure SQL architecture / 审批数据库与安全架构。
-4. Establish ground-truth answers and evaluation baselines / 建立标准答案测试集。
-5. Pass the Phase 1 **GO / NO-GO** gate before implementation / 通过正式开发审核后才编码。
+1. Complete user/competitor evidence or explicit risk acceptance and full PRD alignment.
+2. Close or explicitly disposition OD-01–07 and independent BA/security reviews.
+3. Prepare Development Readiness & Implementation Plan and golden test specifications.
+4. Obtain separate development GO before implementation; no executed tests or working database claimed.
 
 ---
 
