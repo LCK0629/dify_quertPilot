@@ -43,7 +43,11 @@ The project owner **approved five MVP product recommendations** (NovaMart/SGD/Si
 
 - [Development Readiness & Implementation Plan v1.0](docs/phase-1/17_DEVELOPMENT_READINESS_IMPLEMENTATION_PLAN_V1_0.md) — [plan approval QP-APR-006](docs/phase-1/18_DEVELOPMENT_READINESS_APPROVAL_RECORD.md). Planning baseline approved; implementation not authorized.
 
-Next: Close PRE-01–PRE-10 and OD-01–07, finalize the permission matrix, identity/security registry and nonforgeable database scope binding, reconcile and sign off the PRD, and obtain a separate Development GO decision.
+- [Business Metric Dictionary v1.0](docs/phase-1/19_BUSINESS_METRIC_DICTIONARY_V1_0_APPROVED.md) — DEC-BA-001 approved business baseline; tests specified, not executed.
+- [OD Decision Resolution v1.0](docs/phase-1/20_OD_DECISION_RESOLUTION_V1_0.md) — seven proposed dispositions, reviewed for PRD consistency; all OPEN pending acceptance.
+- [Database Design v1.1 Change Proposal](docs/phase-1/DB_DESIGN_V1_1_CHANGE_PROPOSAL.md) — proposed security-registry and database authorization amendments; not approved.
+
+Next: obtain OD-01–07 dispositions, finalize the permission matrix, identity/security registry and nonforgeable database scope binding, reconcile and sign off the PRD, close PRE-01–PRE-10, and obtain a separate Development GO decision. See the current decision index in [00 Start Here](docs/phase-1/00_START_HERE.md).
 
 ## Phase 1 planning pack / 第一阶段文件
 
