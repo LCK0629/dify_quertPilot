@@ -1,5 +1,7 @@
 # Role & Permission Matrix v1.0 — For Approval
 
+> **Controlling disposition (2026-11-26):** [QP-APR-008](23_ROLE_PERMISSION_APPROVAL_RECORD.md) records Project Owner approval of all six design recommendations. Original review labels below are historical; independent review, deployment and Development GO remain outstanding.
+
 **ID:** QP-SEC-RPM-001 | **Date:** 2026-11-26 | **Owner:** Security Architect | **Reviewers:** BA, DB Engineer, Solution Architect | **Approver:** Project Owner | **Status:** FOR APPROVAL | **Development:** NO-GO
 
 ## 1. Scope and controlling baseline
