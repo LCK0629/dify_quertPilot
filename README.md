@@ -3,9 +3,9 @@
 **A Secure, Evidence-Based Retail Analytics Workbench**  
 **安全、可验证、面向零售业务的 AI 数据分析工作平台**
 
-> **Status / 状态:** Phase 1 – Pre-Development Planning. MVP, metric and database design baselines approved; architecture direction approved with conditions. **Development NO-GO.**
+> **Status / 状态:** Phase 1 – Pre-Development Planning. MVP, metric, database design and development readiness plan baselines approved; architecture direction approved with conditions. **Development NO-GO.**
 >
-> MVP、指标及数据库设计基线已批准，系统架构方向附条件批准；完整 PRD、剩余决策及开发准入仍待审核。
+> MVP、指标、数据库设计及开发准备计划基线已批准，系统架构方向附条件批准；完整 PRD、剩余决策及开发准入仍待审核。
 
 ## Project vision / 项目目标
 
@@ -41,7 +41,9 @@ The project owner **approved five MVP product recommendations** (NovaMart/SGD/Si
 - [Physical Database Design v1.0](docs/phase-1/15_PHYSICAL_DATABASE_DESIGN_V1_0.md) — approved baseline.
 - [Database Design Approval Record](docs/phase-1/16_DATABASE_DESIGN_APPROVAL_RECORD.md) — QP-APR-003/004; OD-01–07 remain open. GitHub design references summarize the Word candidates.
 
-Next formal deliverable: Development Readiness & Implementation Plan — For Approval. Full PRD sign-off, BA validation, security conditions and separate development authorization remain outstanding.
+- [Development Readiness & Implementation Plan v1.0](docs/phase-1/17_DEVELOPMENT_READINESS_IMPLEMENTATION_PLAN_V1_0.md) — [plan approval QP-APR-006](docs/phase-1/18_DEVELOPMENT_READINESS_APPROVAL_RECORD.md). Planning baseline approved; implementation not authorized.
+
+Next: Close PRE-01–PRE-10 and OD-01–07, finalize the permission matrix, identity/security registry and nonforgeable database scope binding, reconcile and sign off the PRD, and obtain a separate Development GO decision.
 
 ## Phase 1 planning pack / 第一阶段文件
 
@@ -64,7 +66,7 @@ Phase 1 **draft documents** and **test specifications** have been prepared. They
 
 1. Complete user/competitor evidence or explicit risk acceptance and full PRD alignment.
 2. Close or explicitly disposition OD-01–07 and independent BA/security reviews.
-3. Prepare Development Readiness & Implementation Plan and golden test specifications.
+3. Execute the approved readiness plan's decision-closure workflow and approve the evaluation specifications; do not begin implementation.
 4. Obtain separate development GO before implementation; no executed tests or working database claimed.
 
 ---
