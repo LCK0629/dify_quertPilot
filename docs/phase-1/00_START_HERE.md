@@ -13,8 +13,10 @@ QueryPilot AI is a secure retail-focused natural-language analytics workbench. T
 | [12 System Architecture & Security v1.1](12_SYSTEM_ARCHITECTURE_SECURITY_DESIGN_V1_1.md) / [13 Approval](13_ARCHITECTURE_APPROVAL_RECORD.md) | Conditionally approved |
 | [14 Conceptual ERD](14_CONCEPTUAL_ERD_DATA_MODEL_V1_0.md) / [15 Physical Database Design](15_PHYSICAL_DATABASE_DESIGN_V1_0.md) / [16 Approval](16_DATABASE_DESIGN_APPROVAL_RECORD.md) | v1.0 design baselines approved, implementation conditions remain |
 | [17 Development Readiness Plan](17_DEVELOPMENT_READINESS_IMPLEMENTATION_PLAN_V1_0.md) / [18 Approval](18_DEVELOPMENT_READINESS_APPROVAL_RECORD.md) | Planning baseline approved, not Development GO |
-| [19 Business Metric Dictionary](19_BUSINESS_METRIC_DICTIONARY_V1_0_APPROVED.md) | DEC-BA-001 approved business baseline; OD details remain open |
-| [20 OD Decision Resolution](20_OD_DECISION_RESOLUTION_V1_0.md) | Proposed; all seven decisions OPEN |
+| [19 Business Metric Dictionary](19_BUSINESS_METRIC_DICTIONARY_V1_0_APPROVED.md) | DEC-BA-001 approved business baseline; OD policy details subsequently approved under QP-APR-007 |
+| [20 OD Decision Resolution](20_OD_DECISION_RESOLUTION_V1_0.md) | All seven owner-approved; independent verification pending |
+| [21 OD Approval Record](21_OD_DECISION_APPROVAL_RECORD.md) | QP-APR-007; 7/7 policy dispositions approved |
+| [22 Role & Permission Matrix](22_ROLE_PERMISSION_MATRIX_V1_0.md) | FOR APPROVAL; grants not approved or deployed |
 | [Database Design v1.1 Change Proposal](DB_DESIGN_V1_1_CHANGE_PROPOSAL.md) | Proposed; not a replacement approved design |
 
 Historical draft labels in original review candidates are preserved for traceability; later explicit approval records govern the scope of approval.
@@ -32,8 +34,8 @@ Historical draft labels in original review candidates are preserved for traceabi
 
 ## Decision closure sequence
 
-1. Obtain written OD-01–OD-07 dispositions and review the proposed semantic matrix.
-2. Approve role/capability/metric/dependency/disclosure/store permission matrix.
+1. OD-01–OD-07 owner dispositions recorded; complete independent BA/DB/Security verification.
+2. Review and approve document 22 role/capability/metric/dependency/disclosure/store permission matrix (current task).
 3. Review security registry and identity/session model; resolve nonforgeable PostgreSQL authorization.
 4. Review consolidated database v1.1 amendments and Dify/direct adapter/provider decisions.
 5. Reconcile PRD v1.1, evaluation contract, user/competitor research evidence or explicit risk acceptance, and all remaining PRE-01–PRE-10 conditions.
