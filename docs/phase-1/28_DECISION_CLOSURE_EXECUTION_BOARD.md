@@ -22,7 +22,7 @@
 
 | Order | Issue | Responsible roles | Dependency / required evidence | Status |
 |---|---|---|---|---|
-| 1 | [#1 PRE-04 Security Registry](https://github.com/LCK0629/dify_quertPilot/issues/1) | Security + DB, Product Owner approval | [Formal Security Review 29](29_SECURITY_REGISTRY_SECURITY_REVIEW_FOR_APPROVAL.md) recommends REVISE & RESUBMIT; revise SR-D01–06, trust model, tests and exact candidate | OPEN; v1.1 review pending Owner disposition; registry NOT APPROVED |
+| 1 | [#1 PRE-04 Security Registry](https://github.com/LCK0629/dify_quertPilot/issues/1) | Security + DB, Product Owner approval | [Formal Security Review 29](29_SECURITY_REGISTRY_SECURITY_REVIEW_FOR_APPROVAL.md) recommends REVISE & RESUBMIT; revise SR-D01–06, trust model, tests and exact candidate | OPEN; v1.1 review approved (5/5); revised registry candidate pending; registry NOT APPROVED |
 | 2 | [#2 PRE-05 PostgreSQL authorization](https://github.com/LCK0629/dify_quertPilot/issues/2) | Security + DB + Backend | Coordinate #1 and #3; sign nonforgeable DB identity/privilege ADR, no caller-asserted scope | BLOCKER |
 | 3 | [#3 PRE-06 Identity/session](https://github.com/LCK0629/dify_quertPilot/issues/3) | Security + Solution Architect | Coordinate #1, #2; verified session, CSRF, bootstrap, revocation, audit, credential lifecycle | OPEN |
 | 4 | [#4 PRE-01 PRD v1.1](https://github.com/LCK0629/dify_quertPilot/issues/4) | PM + BA, Security/DB reviewers | Draft in parallel; full signoff requires #1–3, reconcile ALIGN-01–12 | OPEN |
@@ -74,7 +74,7 @@
 4. Any change to approved business metrics, OD policies, permission grants or database grain requires formal change request and upstream re-review.
 5. The PM will report **approved decisions, drafts, blockers and actual implementation** separately; no invented progress percentages.
 
-**Latest Security Architect disposition (2026-11-27):** [Formal Security Registry Security Review 29](29_SECURITY_REGISTRY_SECURITY_REVIEW_FOR_APPROVAL.md) submitted under [Issue #1](https://github.com/LCK0629/dify_quertPilot/issues/1), recommending **REVISE & RESUBMIT**. Project Owner accepted the review recommendation; Database Engineer design revisions and subsequent registry approval remain pending. The document is not QP-APR-009, PRE-04 remains open and Development is NO-GO.
+**Historical v1.0 Security Architect disposition (2026-11-27):** [Formal Security Registry Security Review 29](29_SECURITY_REGISTRY_SECURITY_REVIEW_FOR_APPROVAL.md) submitted under [Issue #1](https://github.com/LCK0629/dify_quertPilot/issues/1), recommending **REVISE & RESUBMIT**. Project Owner accepted the review recommendation; Database Engineer design revisions and subsequent registry approval remain pending. The document is not QP-APR-009, PRE-04 remains open and Development is NO-GO.
 
 ## Historical Project Owner review disposition — 2026-11-27 (superseded for current review)
 
@@ -83,4 +83,6 @@
 
 ## Current Security Review v1.1 — 2026-11-27
 
-[Document 29 v1.1 — For Approval](29_SECURITY_REGISTRY_SECURITY_REVIEW_FOR_APPROVAL.md) supersedes the prior review recommendation for current decision-making after the Project Owner requested changes. It separates blocking design decisions (P0-D), mandatory post-GO implementation acceptance (P1-I), explicitly accepted bounded residual risks (R), and future enhancements (P2-F). The four coordinated security design gates are proposed, not approved. Document 30 is retained as historical evidence; do not interpret it as approval of the revised review. Current Owner disposition: PENDING; Registry SR-D01–D06 NOT APPROVED; Issue #1 OPEN. Existing approved business metrics, OD policies and role matrix unchanged. QP-APR-009 and QP-APR-DEV-GO-001 unissued. **Development NO-GO.** No implementation or tests executed.
+[Document 31 — QP-DEC-SR-REVIEW-002](31_SECURITY_REVIEW_V1_1_APPROVAL_RECORD.md) records Project Owner approval of all five Document 29 v1.1 review decisions (RV-D01–RV-D05). The risk-based review framework and design-only DB-R01–DB-R06 revision scope are approved; SG-01–SG-04 remain open. SR-D01–SR-D06, exact DB identity/authorization choices and individual R01–R04 risk acceptances remain pending. Issue #1 remains open. QP-APR-009 and QP-APR-DEV-GO-001 are unissued. **Registry NOT APPROVED; Development NO-GO.**
+
+Next deliverable: Security Registry Data Model v1.1 — For Approval. Independent Security/DB/BA review of the revised exact candidate precedes any separate registry approval. Approved business metrics, OD policies and role matrix remain unchanged. No implementation or tests executed.
