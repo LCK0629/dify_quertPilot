@@ -113,3 +113,8 @@ This ADR deliberately **does not** change approved metrics M01–M09, OD-01–07
 - `SET ROLE`: https://www.postgresql.org/docs/17/sql-set-role.html
 - `SET SESSION AUTHORIZATION`: https://www.postgresql.org/docs/17/sql-set-session-authorization.html
 - Safe `SECURITY DEFINER` functions: https://www.postgresql.org/docs/17/sql-createfunction.html
+
+
+## Targeted coordination addendum — SEL-04 / T1–T4
+
+Read [Document 33](33_SECURITY_REGISTRY_V1_1_LIMITED_DESIGN_APPROVAL_RECORD.md) and [Document 32 targeted revision](32_SECURITY_REGISTRY_DATA_MODEL_V1_1.md), sections T1 and targeted addendum. Registry Model A is selected; PostgreSQL Authorization Option A is NOT selected. DB-side recommendations for AUTH-D02/03/04: immutable binding rows, terminal BINDING_RETIRE events, verified deployment epoch and non-reused role identities, fresh dedicated READ COMMITTED gateway transactions, actual wall-clock expiry, network/credential restriction to trusted gateway, bounded shared authorization gate, durable audit before response enqueue, emergency global quarantine if suspension cannot commit. Exact operator/session trust, writer exclusivity, durable quarantine and transport implementation contract require independent Security/Backend design review. No direct external DB clients under this candidate; R01/R02/R04 remain pending. T1 design submitted, not independently accepted; T2–T4 coordinated proposals, not ADR closure. AUTH-D01–07 remain pending, no tests run, Development NO-GO.
