@@ -1,124 +1,63 @@
-# ADR Candidate — PostgreSQL Principal Binding and Restricted Analytics
-**Document ID:** QP-SEC-ADR-DBAUTH-001  
-**Version:** 0.1 **FOR REVIEW — NOT APPROVED**  
-**Date:** 2026-11-27 (Asia/Singapore)  
-**Owners:** Security Architect + Database Engineer; supporting Backend Architect / BA  
-**Related decisions:** QP-APR-005 (architecture direction), QP-APR-007 (OD policies), QP-APR-008 (role policy); [registry proposal](24_SECURITY_REGISTRY_DATA_MODEL_V1_0.md) and [review](25_SECURITY_REGISTRY_REVIEW_NOTES.md).  
-**Gate:** **Development NO-GO**. No login, role, DDL, SECURITY DEFINER function, migration or code has been created.
+# PostgreSQL Authorization ADR v1.0 — For Approval
+**QP-SEC-ADR-DBAUTH-001 | 2026-11-27 | Issue #2 | Security Architect**
+**Design submitted; not approved. Registry NOT APPROVED; Development NO-GO.**
 
-## 1. Decision question / security invariant
+## 1. Baseline and decision scope
+Reviewed main 82bde625e87e23da3ebc10995cdf67a1eada0dd2: [32](32_SECURITY_REGISTRY_DATA_MODEL_V1_1.md), [33](33_SECURITY_REGISTRY_V1_1_LIMITED_DESIGN_APPROVAL_RECORD.md), [34](34_TARGETED_SECURITY_DESIGN_APPROVAL_RECORD.md); [22](22_ROLE_PERMISSION_MATRIX_V1_0.md)/23 and 20/21 control business rules. Original Document 26 is preserved at [baseline](https://github.com/LCK0629/dify_quertPilot/blob/82bde625e87e23da3ebc10995cdf67a1eada0dd2/docs/phase-1/26_POSTGRESQL_AUTHORIZATION_ADR_CANDIDATE.md). Model A (16 objects) and Option A (per-principal login) already selected. No new registry object, business rule or provider selection. Companion [Identity ADR](35_IDENTITY_SESSION_TRUSTED_APPROVAL_ADR_V1_0.md) defines identity and operator control. Design recommendations below require explicit approval and independent DB/Backend/BA/QA review; no actual collaborator sign-off asserted.
 
-A shared `qp_analytics` DB login together with user-provided `authorized_scope`, `principal_id` or `SET app.principal` is **not** independent DB authorization. A caller controlling SQL arguments or session settings could impersonate another person if the DB treats those values as authority.
+## 2. AUTH-D01 remaining trust boundary
+Recommend isolated local single-host, single FastAPI process, PostgreSQL 17 on a private network accessible only to gateway and protected maintenance path; same-origin HTTPS UI, no external DB clients, no public hosting or real data. Browser, LLM, input, SQL parameters and ordinary business principal are untrusted. DB independently derives login identity and checks permissions, not browser identity directly. Gateway authentication/routing, OS, credential store, protected DB owners and deployment custodian are trusted; compromised gateway or privileged host can defeat parts of the system (R01/R04). Dify receives no DB credentials or callback authority. Reason: independent protection against request/SQL spoofing without distributed identity infrastructure. Risk: credential concentration and local-admin trust. Design acceptance: explicit boundary and secret/role inventory approved; future tests demonstrate spoof denial; public access or additional workers require change review.
 
-**Required invariant:** PostgreSQL must derive a nonforgeable execution identity under a stated trust model, resolve the **current** authorized principal-wide store scopes and metric/capability permissions from protected policy, and expose only fixed aggregate operations. A normal query caller cannot widen scope by changing SQL arguments, GUCs or role claims.
+## 3. AUTH-D02 — Binding and credential lifecycle
+Recommend TLS server authentication with private CA, libpq verify-full, fixed hostname/port/database, pinned protected CA and deployment epoch; no fallback. Provisioner records server system_identifier (protected read during setup), epoch UUID and endpoint in protected manifest; dedicated read-only attestation routine returns configured epoch and server identity (no general catalog privilege). Gateway validates TLS and exact attestation on startup and each new connection; server-side evaluator checks deployment-local epoch, session_user exact catalog name and OID, LOGIN status, current policy selected binding and terminal retirement. Epoch changes for restore/clone/replacement even if PostgreSQL system_identifier is unchanged; verify endpoint/epoch independently, new bindings and reviewed policy before reopening. Name format qp_h_ plus 32 lowercase UUID hex characters, no reuse or truncation, unique OID within epoch, monotonically increasing credential generation. DB role password independent from web password; random 32-byte secret, SCRAM-SHA-256, protected OS credential directory readable only by gateway, no secrets in Git, registry, logs or Dify. Provision offline while quarantined; bind verified local issuer+subject to login server-side, no caller-selected credential. Rotate by suspend/retire, disable LOGIN and vault route, terminate old connections best effort, create new name/generation, review and activate new policy, independently release. Lost secrets trigger same process, never revive old binding. Reason: distinct native DB identities are observable and easy to audit. Risk: CA/OS/vault compromise and operator error; R01. Acceptance: T1-01–03, DBA-04/05/11/16/17: wrong name/OID/epoch, retired or expired binding, old credential and wrong user route deny; positive rebind only approved scope. DB and Backend review actual mapping contract.
 
-This must be backed by practical negative tests before any approval; merely describing it is insufficient.
+## 4. AUTH-D03 — Restricted routine and privilege contract
+Recommend four named non-overloaded functions in qp_api, SECURITY DEFINER, VOLATILE, PARALLEL UNSAFE, fixed search_path pg_catalog, trusted private schemas, pg_temp last, fully qualified references, static SQL only. No dynamic SQL, user identifiers, arbitrary expressions, unreviewed extensions or unrestricted SQL endpoint. No RLS dependency in P0: no business login has base access; explicit scope predicates in each fixed routine and independent entitlement evaluator. RLS may be added later only with reviewed owner/bypass semantics. Definer is NOLOGIN, not superuser/BYPASSRLS, not base owner. Revoke PUBLIC EXECUTE at creation transaction and default privileges; revoke PUBLIC CONNECT/TEMP/schema CREATE and unintended privileges; only specific CONNECT/USAGE/EXECUTE granted; no role membership, SET ROLE escalation, schema CREATE, DML, DDL or direct base access. Verify inherited and default privileges, all helper functions and views.
 
-## 2. Options considered
-
-| Option | Mechanism | Benefits | Critical drawbacks | Review disposition |
-|---|---|---|---|---|
-| **A — Per-principal PostgreSQL login + bounded aggregate routines** | Distinct, least-privileged DB login for each synthetic human principal; DB maps protected `session_user` to registry principal; fixed reviewed SECURITY DEFINER aggregate routines independently check *current* policy and scope. | Clear DB-visible identity for small demo; no user-supplied principal/GUC trusted; normal SQL user cannot impersonate other DB login without credential. | Per-principal credentials and pool lifecycle; FastAPI credential routing is a high-value trust boundary; SECURITY DEFINER bugs are serious; not scalable as-is. | **RECOMMENDED FOR LIMITED MVP REVIEW ONLY** |
-| **B — Shared restricted login + independently verified signed identity evidence** | DB validates short-lived cryptographic identity/capability proof issued by a **separate protected issuer**, not arbitrarily asserted by FastAPI. | Fewer DB credentials; potential scaling path. | Requires vetted verifier, key rotation/revocation, nonce/expiry and public-key operations; extra dependencies; cannot be considered secure without independent end-to-end proof. | **DEFER** unless A fails accepted requirements |
-| **C — Shared login with scope/principal passed as SQL parameter or mutable custom GUC** | `WHERE store_id = ANY(:scope)` or `current_setting('app.principal')`. | Easiest to implement. | Caller-controlled assertion, not independent authority; if compiler/routing fails, DB cannot tell which human is authenticated. | **REJECT AS SOLE DB AUTHORIZATION** |
-
-**No final option is approved.** The review recommendation is to independently assess A for the **small, fictional, offline-first** P0 environment; production architecture could differ.
-
-## 3. Candidate A — bounded design proposal
-
-### A. Identity and credential binding
-1. FastAPI authenticates the current synthetic/verified human identity and checks `chat.use` **before** an LLM call.
-2. On any authorized analytics request, FastAPI selects a DB connection credential from a **protected server-side mapping** of verified issuer+subject to a dedicated PostgreSQL login. Never accept a username, role, or connection string from browser/LLM.
-3. Each database login is `LOGIN NOSUPERUSER NOCREATEDB NOCREATEROLE NOREPLICATION NOBYPASSRLS`, no memberships permitting `SET ROLE` into any other human, owner, migrator, or definer role. Grant no base-table SELECT, CREATE, DML or DDL.
-4. In PostgreSQL, a protected registry mapping `db_login_name -> principal_id` must be proposed, reviewed and provisioned separately; login names cannot be changed by browser requests. The current SRDM 15-object design does **not** yet specify this mapping, and must be amended or linked to a protected external identity mapping.
-5. The DB derives the caller identity from `session_user` and confirms that principal is active, not suspended, has current policy/grants/role and explicit store scope. Do not derive it from `current_user` **inside SECURITY DEFINER** functions, as `current_user` becomes the function owner.
-6. PostgreSQL 17 allows non-superusers to change their `current_user` only through allowed role memberships, while `session_user` ordinarily remains the connecting user. This is a **candidate property to test, not a blanket guarantee of system identity**.
-7. A compromise of FastAPI or its credential vault could expose many demo principals; this design protects primarily against forged request/SQL parameters and cross-user privileges through normal restricted DB execution. Secret isolation, rotation, vault access and this residual risk require explicit sign-off.
-
-### B. Database interface and privileges
-- **No direct event stream exposed to business principals.** They may execute only a narrow list of reviewed routines corresponding to `kpi`, `rank`, `compare`, and `diagnose` operations, each returning approved aggregate types/evidence. Do **not** grant `analytics.merchandise_events` to ordinary callers.
-- Use separate NOLOGIN ownership roles for raw business tables, registry, trusted aggregate routines and migration. Runtime login cannot own or modify trusted code or tables. Definer must not be superuser or `BYPASSRLS`, and should not own base tables that rely on RLS.
-- Routines check policy/generation, explicit scope, capability, metric rights, derived disclosure dependencies, OD-06 dimension rules, snapshot `FINAL`/coverage, row limits and time bounds. A requested store outside scope **denies the whole query**, rather than silently intersecting.
-- Routines accept typed values only (approved metric IDs, time range, bounded store filters, snapshot IDs). Identifiers and SQL shapes are developer-controlled, never taken from raw LLM SQL. A safe API compiler remains the first boundary, and database routines serve as the independent second.
-- SECURITY DEFINER usage demands an explicit safe `search_path`, qualified objects, no unsafe dynamic SQL, a locked-down owner, and revocation of default `PUBLIC EXECUTE` **inside the same deployment transaction**. Review every callable helper and extension.
-- RLS may supplement restricted routines; table owners, superusers and `BYPASSRLS` bypass ordinary policies, so FORCE RLS, view ownership, invoker/definer semantics and real privileges must be verified. **Do not assert that RLS alone makes a definer routine safe.**
-- Avoid extending the frontend's query evidence with executable/raw SQL. Expose sanitized query template/hash, metric/version, snapshot/coverage, reporting period and approved scope only.
-
-### C. Connection isolation and current-policy rechecks
-- P0 demo preference: one authenticated DB session per principal/request or an **isolated pool per database login**. Do not share a pooled authenticated connection across principals; if a pool is introduced, audit checkout/return and ensure no session role/GUC/temp state leaks.
-- Use read-only transactions, strict statement timeout, bounded result cardinality, maximum period and concurrency limits as **additional** controls, not authorization.
-- Bind the evaluated `policy_generation`, `revocation_sequence`, `principal_id` and authorization expiry to query provenance. Recheck current policy and revocation before emitting evidence or invoking optional narrative model; permission expiry midway suppresses output.
-- Clearly state the remaining race: an already-transmitted result cannot be recalled. Security review must decide whether in-flight cancellation/streaming is disabled in P0.
-- Synthetic policy snapshot at query time may differ from historical business `data_snapshot`; business as-of never grants historical access rights.
-
-## 4. End-to-end example: Sales Staff denied revenue
-
-**User:** `demo_sales_b` is authenticated; has `chat.use`, `analytics.kpi`, `metric.M06.read`, `evidence.read`, and explicit Store B grant.
-
-**Question:** “What was our net revenue last month?”
-
-1. FastAPI validates `chat.use`; bounded LLM adapter may identify `M04`.
-2. FastAPI Stage 2 sees no `metric.M04.read` and **denies before business SQL**; no unauthorized amount reaches model or browser.
-3. If a malicious/buggy caller nevertheless invokes the restricted DB routine directly as `qp_demo_sales_b`, the routine independently resolves the authenticated login and denies M04. The caller cannot switch to another principal simply by providing `principal_id=owner` or `store_id=A`.
-4. No raw revenue events, component bridges, stack traces or forbidden query patterns are disclosed.
-
-**Other case:** System Admin with only `users.manage` lacks `chat.use` and is rejected at Stage 1 before Dify. Owner must have explicit store grants; role name alone never means all stores.
-
-## 5. Required negative tests (specifications only)
-
-| ID | Scenario | Required outcome |
+### Exact logical interface (not DDL)
+Common inputs C: snapshot_id BIGINT (required resolved immutable business snapshot; confirm existing key type in DB v1.1), start_date DATE inclusive, end_date DATE exclusive, scope_mode TEXT OMITTED/EXPLICIT/ALL, store_ids BIGINT[] (nonempty only EXPLICIT; empty array otherwise), channel_code TEXT nullable, category_id BIGINT nullable, product_id BIGINT nullable. Validate nulls, duplicates, unknown IDs, approved dimensions and period. ALL resolves all actual stores and denies if any ungranted; OMITTED resolves current granted scope. Snapshot selection never grants access. No principal, role, grants or SQL input. Additional arguments:
+| Routine | Additional typed inputs | Allowed output |
 |---|---|---|
-| DBA-01 | Restricted principal connects and queries `retail`, `ingest`, `governance` base tables | Permission denied |
-| DBA-02 | Restricted login attempts DDL, INSERT/UPDATE/DELETE, function creation or unsafe extensions | Permission denied |
-| DBA-03 | Restricted login attempts `SET ROLE` owner, another user, or function owner | Denied; no broader effective role |
-| DBA-04 | Restricted login tries `SET SESSION AUTHORIZATION` to a different principal | Denied |
-| DBA-05 | Forged SQL `principal_id`, `store_id`, claimed capability or GUC | Does not widen DB scope |
-| DBA-06 | Direct SQL calls a metric routine lacking capability or base dependency | Denied with no amount |
-| DBA-07 | Units-only staff requests M04 or raw underlying events | Denied; no bridge leakage |
-| DBA-08 | Owner with only Stores A+B asks for Store C | Denied, no partial company-wide aggregate |
-| DBA-09 | Definer routine has malicious `search_path`/temp-object shadowing attempt | No privilege escalation or data leak |
-| DBA-10 | PUBLIC/unassigned role tries `EXECUTE` or schema CREATE | Denied |
-| DBA-11 | Connection reused under wrong human identity; pool/credential cross-contamination | No cross-principal execution possible |
-| DBA-12 | Policy revocation after SQL but before response or evidence read | Suppressed pending output; current policy required |
-| DBA-13 | Sparse aggregates, differencing and repeated M04/M07/M08/M09 queries | Reviewed inference controls/accepted residual risk |
-| DBA-14 | Old business snapshot or stale policy version replayed after revoke | Denied under current authorization |
-| DBA-15 | SECURITY DEFINER owner/role inherits BYPASSRLS or base-table ownership accidentally | Privilege review fails; deployment blocked |
-| DBA-16 | DB connector holds more privileged credentials than expected | Secret inventory fails; no GO |
-| DBA-17 | Missing registry mapping or broken audit/active-policy pointer | Fail closed |
-| DBA-18 | Attempt to use direct LLM/Dify DB credentials or a raw-SQL endpoint | Endpoint not available; no credentials exposed |
-
-**Pass criteria:** Independent Security/DB reviewer witnesses real PostgreSQL 17 privilege checks with distinct test connections and raw evidence. No test result claimed in this document.
-
-## 6. Unresolved sign-off decisions
-
-| ID | Approval question | Responsible |
+| qp_api.kpi(C, metric_code TEXT, group_by TEXT) | M01–M07; group_by NONE/DATE/STORE/CHANNEL/CATEGORY/PRODUCT per OD-06 | approved metric rows |
+| qp_api.rank(C, metric_code TEXT, rank_by TEXT, top_n INTEGER) | approved rank dimension and metric only | rank, permitted group label, value |
+| qp_api.compare(C, base_metric_code TEXT, prior_start DATE, prior_end DATE, group_by TEXT) | M08 and approved base, matched windows and inherited restrictions | base, current/prior values and approved M08 change/status |
+| qp_api.diagnose(C, prior_start DATE, prior_end DATE, bridge_mode TEXT) | M09+M04+diagnose; bridge NONE/OPTIONAL/EXPLICIT | reconciled store/category delta decompositions, bridge only if allowed |
+Proposed common return is a closed typed JSONB envelope: status (ok/insufficient_data), metric_code, operation, period, authorized scope labels, currency/unit, snapshot_id, data_as_of, coverage/finality, metric_version, template_id/hash, rows; decimal values encoded as exact strings (no float); group labels only approved; compare includes prior period and approved change/N/A; diagnose includes separate reconciled store and category sections and permitted bridge. Internal provenance (binding_id, principal_id, generation, revocation sequence, expiry) returned only to gateway, stripped from browser except approved policy version. Reject extra fields; no raw SQL, rows, secrets, hidden scope or intermediate components. Denial returns generic fixed error, no unauthorized data/metadata. BA confirms exact metric/version field semantics and OD-06 before final sign-off; no formula changes. Proposed operational limits: 366 days per window, top_n 1–50, 500 returned rows, 256 KiB response, 10s SQL timeout, 4 concurrent analytics connections; reject excess, never truncate KPI or change reporting period. BA/Owner review limits as supported-scope contract; no new suppression policy.
+### Privilege matrix
+| Role (NOLOGIN owners except controlled login) | Allowed | Denied |
 |---|---|---|
-| AUTH-D01 | Select A/B/equivalent and the exact attacker/trust model | Security Architect + Project Owner |
-| AUTH-D02 | Approve per-principal login lifecycle/mapping and operational credential boundary | Security + DB |
-| AUTH-D03 | Approve routine signatures, protected ownership, invocation privileges, and RLS role matrix | Security + DB |
-| AUTH-D04 | Approve connection pool policy, transaction isolation, policy/revocation race response | Backend + Security |
-| AUTH-D05 | Approve residual sparse/inference/credential-store risk for synthetic MVP | BA + Security + Owner |
-| AUTH-D06 | Approve integration with 15-object security registry or authorized simplification | DB + Security + Owner |
-| AUTH-D07 | Approve actual negative-test protocol, expected outcomes and evidence | Security + QA |
+| qp_h_* analytics LOGIN | CONNECT, qp_api USAGE, four named EXECUTEs | all raw/registry reads, writes, helper EXECUTE, role escalation |
+| qp_fact_owner | own retail/private fact objects | interactive login, policy administration |
+| qp_registry_owner | own security schema/registry | interactive login, business analytics |
+| qp_routine_owner | own qp_api routines; SELECT only required private fact/registry projections | base ownership, writes, LOGIN, BYPASSRLS |
+| qp_ingest / qp_publisher | restricted staging writes / reviewed publish interface respectively | policy, analytics login |
+| qp_policy_author / qp_activator / qp_revoker | restricted separate candidate/activation/emergency interfaces | direct table mutation or self-approval |
+| qp_audit_writer / qp_audit_reader | append sanitized events / read sanitized audit respectively | update/delete, release authority |
+| qp_migrator | controlled offline deployment identity only | runtime credential route |
+| qp_gateway_control | restricted final-check/audit interface, no fact read | arbitrary policy writes, analytics impersonation via SQL |
+Protected attestation helper callable only through narrow approved interfaces. Maintenance identities separately provisioned, no runtime owner secrets. Reason: small verifiable callable surface. Risk: definer or privilege configuration bugs, performance limits. Acceptance DBA-01–10/15/18, RPM-02/07/23: effective grants inventory and independent direct restricted-login probes; malicious temp/search path, role switches and raw event requests fail, allowed aggregates reconcile. No probes before GO.
 
-## 7. Change impact and next step
+## 5. AUTH-D04 / SR-D04 — Transaction and revocation
+Recommend fresh dedicated READ COMMITTED connection/transaction per analytics request, read-only, no pooling initially. Gateway captures current session, binding, policy generation, revocation sequence, earliest boundary (binding/assignment/scope/session expiry or next effective change), request ID; DB rechecks current policy using session_user, actual clock_timestamp and typed inputs. Evaluator reads consistent version and emergency state in one statement or coherent fresh snapshot; never reuse an old transaction after waiting. Compare provenance after SQL; any relevant state change discards buffered result. No old-policy replay. Full effective union at every interval segment, deny precedence, exact-three monetary and M05/M07 constraints unchanged.
 
-This ADR deliberately **does not** change approved metrics M01–M09, OD-01–07, role matrix or v1.0 physical data grain. If Option A is approved, the Registry Data Model must add a protected DB-login binding or equivalent and database v1.1 must define roles, `EXECUTE` grants, ownership and safe routines. PRD v1.1 must align sanitized evidence and two-stage authorization. Dify/direct LLM selection remains a separate ADR.
+One process-wide mutex shared by every authorization writer and final response enqueue; single worker, no reload/multiworker, protected instance lock; maintenance or backup/restore only in quarantine with gateway stopped. Writer privileges confined to gateway's separate narrow control path; no concurrent direct operator SQL; DB emergency/maintenance owner treated as trusted offline. All session invalidation, binding retirement, policy activation, trust change and recovery obey same gate. Emergency request sets protected pending-deny latch before waiting; no new handoffs while pending. If lock fails or commit uncertain, enter quarantine (companion ADR). Under final gate open fresh control transaction; recheck session/epoch/binding/generation/revocation/expiry/deny latch, commit sanitized authorization audit, recheck time and latch, enqueue entire bounded response while gate held. Queue consumer cannot send expired, quarantined or superseded pending items; discard on generation/expiry/queue lifetime mismatch; no network I/O under gate. Handoff linearization is successful enqueue; bytes already handed to transport cannot be recalled (R02). Audit means authorized-for-handoff, not delivery. Proposed initial 250ms acquisition, 1s critical section, 1s queue lifetime, deadlines use monotonic clock; UTC entitlement clock must be healthy, rollback/drift beyond approved tolerance denies. Timeouts/crash/unknown commit discard result, no successful response. Cancel DB work best effort. Dify never sees result. Direct external DB clients forbidden by private network/secret boundary; restricted direct probes after GO demonstrate DB entry protection, not unconditional transport revocation for stolen credential (R01). Reason: simple serialized release boundary. Risk: availability and head-of-line contention. Acceptance DBA-11/12/14/17, T3-01/02: staged revocation/expiry at each boundary, stale transaction, wrong connection, audit commit failure, enqueue timeout, worker duplication and crash deny; positive uninterrupted request succeeds.
 
-**Decision status: PROPOSED — NO DEVELOPMENT GO.** Do not implement the proposed connection or SECURITY DEFINER design until separately reviewed and authorized.
+## 6. AUTH-D05 — Residual risk dispositions (recommendation, not acceptance)
+| Risk | Recommendation and mitigation | Acceptance criterion |
+|---|---|---|
+| R01 gateway/vault compromise | accept only bounded local synthetic deployment, private network, least privileges, separate secrets and rotate/recover | Owner approves stated trust boundary; inventory/no external access reviewed; breach disables routing |
+| R02 already-handed-off bytes | accept narrow irrevocable transport window, no streaming/cache, bounded queue, current recheck | Owner accepts boundary; race oracle proves no post-revocation new handoff |
+| R03 aggregate inference | accept permitted aggregate implications only, synthetic data; preserve exact-three and M05/M07, M08/M09 constraints | BA verifies outputs and sparse/differencing cases; no real data/strong confidentiality claim; Owner explicit acceptance |
+| R04 privileged tampering | accept local OS/DB owner trust, protected audit/independent checkpoint/recovery | Owner accepts limited threat model; restore/tamper oracle and custody reviewed |
+All four require individual Owner disposition before GO, controls verified after GO before demo. No new privacy thresholds. No silent risk acceptance.
 
-## PostgreSQL 17 authoritative references
-- Row Level Security: https://www.postgresql.org/docs/17/ddl-rowsecurity.html
-- Identity and `session_user` vs `current_user`: https://www.postgresql.org/docs/17/functions-info.html
-- `SET ROLE`: https://www.postgresql.org/docs/17/sql-set-role.html
-- `SET SESSION AUTHORIZATION`: https://www.postgresql.org/docs/17/sql-set-session-authorization.html
-- Safe `SECURITY DEFINER` functions: https://www.postgresql.org/docs/17/sql-createfunction.html
+## 7. AUTH-D06 — Registry integration
+Recommend selected 16 objects unchanged. db_login_bindings immutable composite identity; principal_states selects one binding per policy; revocation_events typed SUSPEND/RELEASE/BINDING_RETIRE; active_policy generation and activation FK; policy_approvals bound to exact digest and capacity; grant_audit append only. No direct registry mutation by analytics; operational session/secret/quarantine/manifest files outside 16 objects, not business data. Registry evaluator resolves current policy, binding, active principal/roles, deny-first union, store scope, M08 base and output allowlist; all future interval segments validated on seal. Historical data snapshot separate. Update DB v1.1 design (#5) with exact physical FK/type, privilege/interface mapping, no business grain change. Reason: reuse approved structure. Risk: cross-version mismatch; deny if any mismatch. Acceptance SR-04–16/18–25/28/30, DBSEC-01–12; DB verifies schema types and composite keys, Security validates interface before final registry approval.
 
+## 8. AUTH-D07 — Acceptance protocol
+Original DBA-01–18 remain authoritative verbatim at pinned baseline above; retain all SR-01–32, RPM-01–28, DBSEC-01–12, NEW-01–14 and T1–T5 cases (115 distinct identifiers in Document 32 before new identity cases). Do not collapse distinct oracles. QA creates independent synthetic fixture manifests: A/B disjoint managers, units-only B, M04-only analyst, Owner A+B (not C), no-chat admin, expired/suspended principal; controlled policy versions, complete/missing/stale snapshots. BA provides independent exact expected metric and coverage results; Security/DB witness negative DB probes from isolated test connections; Backend witnesses concurrency/session traces. For each case record ID, source version, fixture hash, preconditions, input, expected HTTP/status and DB call count, allowed/forbidden fields, expected state transition, actual sanitized trace, reviewer and disposition. Store in evaluation/security/<run_id>/<case_id>/manifest.json, no secrets. Denied/unsupported/ambiguous input executes zero business SQL; no-chat zero adapter; direct test probes separate from API call counts. Zero unauthorized disclosure and unauthorized state change in mandatory suite; positive cases reconcile approved results; all mandatory tests pass after GO before separate release, no test execution now. QA reviews original ID-to-oracle crosswalk and new identity cases in companion ADR. Reason: independent evidence rather than generated claims. Risk: incomplete oracle coverage; fail acceptance if any applicable ID missing.
 
-## Targeted coordination addendum — SEL-04 / T1–T4
+## 9. Approval ballot and dependencies
+Owner may approve AUTH-D01 remaining trust model, AUTH-D02–07 separately, SR-D04 temporal direction, and R01–04 individually. SR-D03/05 in companion ADR. DB, Backend, BA, QA and Security must independently review their contracts; no sign-off by named people is asserted. T5 output field/oracle validation and DB v1.1 physical mapping remain dependencies. SG-01–04 and PRE-04/05/06 remain open until accepted evidence; no QP-APR-009 or Development GO. No implementation code, migration, credentials, fixtures or test run created.
 
-Read [Document 33](33_SECURITY_REGISTRY_V1_1_LIMITED_DESIGN_APPROVAL_RECORD.md) and [Document 32 targeted revision](32_SECURITY_REGISTRY_DATA_MODEL_V1_1.md), sections T1 and targeted addendum. Registry Model A is selected; PostgreSQL Authorization Option A is NOT selected. DB-side recommendations for AUTH-D02/03/04: immutable binding rows, terminal BINDING_RETIRE events, verified deployment epoch and non-reused role identities, fresh dedicated READ COMMITTED gateway transactions, actual wall-clock expiry, network/credential restriction to trusted gateway, bounded shared authorization gate, durable audit before response enqueue, emergency global quarantine if suspension cannot commit. Exact operator/session trust, writer exclusivity, durable quarantine and transport implementation contract require independent Security/Backend design review. No direct external DB clients under this candidate; R01/R02/R04 remain pending. T1 design submitted, not independently accepted; T2–T4 coordinated proposals, not ADR closure. AUTH-D01–07 remain pending, no tests run, Development NO-GO.
-
-## Controlling targeted design disposition — 2026-11-27
-
-[Document 34 — Targeted Security Design Approval Record](34_TARGETED_SECURITY_DESIGN_APPROVAL_RECORD.md) (QP-DEC-SR-REVIEW-004) records Owner approval of SEC-T1, SEC-T2, AUTH-D01 (Option A selection only), SEC-T3 and SEC-T4 against exact reviewed commit 6dbeb00d30e415ffdaf098f06bbe1ac097681a4e. Earlier pending-selection statements are historical. Immutable binding/terminal retirement, JCS + SHA-256, per-principal restricted PostgreSQL logins, single-process gateway/fresh transaction and global analytics quarantine directions are accepted within limited scope. Exact attacker/trust model, credential/server attestation, routine privileges, handoff/writer exclusivity, durable quarantine/recovery, authenticated dual approvals, T5, AUTH-D02–07, R01–04 and SG-01–04 remain open. Timing parameters provisional. Final SR-D03–05 and registry/interface acceptance remain pending. No QP-APR-009 or Development GO; no implementation or tests authorized.
+References: https://www.postgresql.org/docs/17/libpq-ssl.html ; https://www.postgresql.org/docs/17/functions-info.html ; https://www.postgresql.org/docs/17/sql-createfunction.html ; https://www.postgresql.org/docs/17/transaction-iso.html ; https://www.postgresql.org/docs/17/functions-datetime.html ; https://www.postgresql.org/docs/17/ddl-rowsecurity.html .
