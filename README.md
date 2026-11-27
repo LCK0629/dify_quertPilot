@@ -11,7 +11,7 @@
 
 - [Current verified status and next blockers](docs/phase-1/27_STATUS_2026_11_27.md)
 - [Security Registry Data Model v1.0 — Review Notes](docs/phase-1/25_SECURITY_REGISTRY_REVIEW_NOTES.md) — **review draft, not approved**.
-- [Formal Security Registry Security Review — For Approval](docs/phase-1/29_SECURITY_REGISTRY_SECURITY_REVIEW_FOR_APPROVAL.md) — **REVISE & RESUBMIT** recommendation, Owner accepted REVISE & RESUBMIT; design revisions authorized; 15-object registry is not approved.
+- [Formal Security Registry Security Review — For Approval](docs/phase-1/29_SECURITY_REGISTRY_SECURITY_REVIEW_FOR_APPROVAL.md) — **v1.1 review direction approved (5/5 RV decisions)**; targeted design revisions authorized; registry not approved.
 - [PostgreSQL Nonforgeable Authorization ADR — Candidate](docs/phase-1/26_POSTGRESQL_AUTHORIZATION_ADR_CANDIDATE.md) — **proposal only; no selected implementation**.
 
 Owner approvals QP-APR-007 (OD-01–OD-07) and QP-APR-008 (role/permission) are recorded. The 15-object registry, database execution-identity binding, AI provider ADR, full PRD v1.1 and Development GO still require separate decisions and evidence. **No code, DDL, data generation, deployment or implementation tests are authorized.**
@@ -96,4 +96,6 @@ Phase 1 **draft documents** and **test specifications** have been prepared. They
 
 ## Current Security Review v1.1 — 2026-11-27
 
-[Document 29 v1.1 — For Approval](docs/phase-1/29_SECURITY_REGISTRY_SECURITY_REVIEW_FOR_APPROVAL.md) supersedes the prior review recommendation for current decision-making after the Project Owner requested changes. It separates blocking design decisions (P0-D), mandatory post-GO implementation acceptance (P1-I), explicitly accepted bounded residual risks (R), and future enhancements (P2-F). The four coordinated security design gates are proposed, not approved. Document 30 is retained as historical evidence; do not interpret it as approval of the revised review. Current Owner disposition: PENDING; Registry SR-D01–D06 NOT APPROVED; Issue #1 OPEN. Existing approved business metrics, OD policies and role matrix unchanged. QP-APR-009 and QP-APR-DEV-GO-001 unissued. **Development NO-GO.** No implementation or tests executed.
+[Document 31 — QP-DEC-SR-REVIEW-002](docs/phase-1/31_SECURITY_REVIEW_V1_1_APPROVAL_RECORD.md) records Project Owner approval of all five Document 29 v1.1 review decisions (RV-D01–RV-D05). The risk-based review framework and design-only DB-R01–DB-R06 revision scope are approved; SG-01–SG-04 remain open. SR-D01–SR-D06, exact DB identity/authorization choices and individual R01–R04 risk acceptances remain pending. Issue #1 remains open. QP-APR-009 and QP-APR-DEV-GO-001 are unissued. **Registry NOT APPROVED; Development NO-GO.**
+
+Next deliverable: Security Registry Data Model v1.1 — For Approval. Independent Security/DB/BA review of the revised exact candidate precedes any separate registry approval. Approved business metrics, OD policies and role matrix remain unchanged. No implementation or tests executed.
