@@ -6,7 +6,7 @@ QueryPilot AI is a secure retail-focused natural-language analytics workbench. T
 
 ## Follow-up review — 2026-11-27
 
-- [29 Formal Security Registry Security Review — For Approval](29_SECURITY_REGISTRY_SECURITY_REVIEW_FOR_APPROVAL.md) — Security Architect recommends **REVISE & RESUBMIT**; Project Owner accepted REVISE & RESUBMIT; no registry approval.
+- [29 Formal Security Registry Security Review — For Approval](29_SECURITY_REGISTRY_SECURITY_REVIEW_FOR_APPROVAL.md) — Security Architect recommends **REVISE & RESUBMIT**; Project Owner subsequently requested changes; v1.1 review pending; no registry approval.
 
 - [25 Security Registry Independent Review](25_SECURITY_REGISTRY_REVIEW_NOTES.md) — SR-D01–D06 review findings and unresolved identity/approval controls; **not approved**.
 - [26 PostgreSQL Authorization ADR Candidate](26_POSTGRESQL_AUTHORIZATION_ADR_CANDIDATE.md) — identity-binding alternatives, recommended test candidate and DBA-01–18 negatives; **not approved**.
@@ -29,7 +29,7 @@ No Development GO has been issued. These review files do not change approved met
 | [22 Role & Permission Matrix](22_ROLE_PERMISSION_MATRIX_V1_0.md) | Owner-approved design; independent verification pending; not deployed |
 | [23 Role Permission Approval](23_ROLE_PERMISSION_APPROVAL_RECORD.md) | QP-APR-008; 6/6 design recommendations approved |
 | [24 Security Registry Data Model](24_SECURITY_REGISTRY_DATA_MODEL_V1_0.md) | FOR APPROVAL; review findings in 29 require revision; not owner-approved |
-| [29 Formal Security Review](29_SECURITY_REGISTRY_SECURITY_REVIEW_FOR_APPROVAL.md) | SECURITY REVIEW COMPLETE, REVISE & RESUBMIT; revision authorized; revised candidate pending |
+| [29 Formal Security Review](29_SECURITY_REGISTRY_SECURITY_REVIEW_FOR_APPROVAL.md) | v1.1 REVIEW PENDING; prior v1.0 disposition superseded for current review; registry not approved |
 | [Database Design v1.1 Change Proposal](DB_DESIGN_V1_1_CHANGE_PROPOSAL.md) | Proposed; not a replacement approved design |
 
 Historical draft labels in original review candidates are preserved for traceability; later explicit approval records govern the scope of approval.
@@ -62,6 +62,11 @@ Historical draft labels in original review candidates are preserved for traceabi
 - User interviews and hands-on competitor benchmarks are not evidenced as completed. Tests remain specifications, not executed results.
 - No DDL, dataset generation, coding or deployment is authorized. This index does not approve any proposed rules or imply a working product.
 
-## Project Owner review disposition — 2026-11-27
+## Historical Project Owner review disposition — 2026-11-27 (superseded for current review)
 
 [Project Owner disposition — Document 30](30_SECURITY_REGISTRY_REVIEW_DISPOSITION_RECORD.md) records QP-DEC-SR-REVIEW-001: **REVISE & RESUBMIT accepted; design-only DB-R01–DB-R06 authorized.** SR-D01–SR-D06 remain unapproved. Issue #1 remains open pending revised registry v1.1 and independent review. QP-APR-009 and QP-APR-DEV-GO-001 remain unissued. **Development NO-GO.**
+
+
+## Current Security Review v1.1 — 2026-11-27
+
+[Document 29 v1.1 — For Approval](29_SECURITY_REGISTRY_SECURITY_REVIEW_FOR_APPROVAL.md) supersedes the prior review recommendation for current decision-making after the Project Owner requested changes. It separates blocking design decisions (P0-D), mandatory post-GO implementation acceptance (P1-I), explicitly accepted bounded residual risks (R), and future enhancements (P2-F). The four coordinated security design gates are proposed, not approved. Document 30 is retained as historical evidence; do not interpret it as approval of the revised review. Current Owner disposition: PENDING; Registry SR-D01–D06 NOT APPROVED; Issue #1 OPEN. Existing approved business metrics, OD policies and role matrix unchanged. QP-APR-009 and QP-APR-DEV-GO-001 unissued. **Development NO-GO.** No implementation or tests executed.
