@@ -4,6 +4,14 @@
 
 QueryPilot AI is a secure retail-focused natural-language analytics workbench. The objective is authorized, reproducible analytics, not arbitrary generated SQL.
 
+## Follow-up review — 2026-11-27
+
+- [25 Security Registry Independent Review](25_SECURITY_REGISTRY_REVIEW_NOTES.md) — SR-D01–D06 review findings and unresolved identity/approval controls; **not approved**.
+- [26 PostgreSQL Authorization ADR Candidate](26_POSTGRESQL_AUTHORIZATION_ADR_CANDIDATE.md) — identity-binding alternatives, recommended test candidate and DBA-01–18 negatives; **not approved**.
+- [27 Verified Status](27_STATUS_2026_11_27.md) — owner-approved OD/roles versus remaining authorization/PRD/research blockers.
+
+No Development GO has been issued. These review files do not change approved metrics, business-model grains or role policy.
+
 ## Current controlling records
 
 | Document | Status |
