@@ -22,7 +22,7 @@
 
 | Order | Issue | Responsible roles | Dependency / required evidence | Status |
 |---|---|---|---|---|
-| 1 | [#1 PRE-04 Security Registry](https://github.com/LCK0629/dify_quertPilot/issues/1) | Security + DB, Product Owner approval | Approve/revise SR-D01–06, exact registry version, tests and trust controls | OPEN; review candidate |
+| 1 | [#1 PRE-04 Security Registry](https://github.com/LCK0629/dify_quertPilot/issues/1) | Security + DB, Product Owner approval | [Formal Security Review 29](29_SECURITY_REGISTRY_SECURITY_REVIEW_FOR_APPROVAL.md) recommends REVISE & RESUBMIT; revise SR-D01–06, trust model, tests and exact candidate | OPEN; owner decision pending; NOT APPROVED |
 | 2 | [#2 PRE-05 PostgreSQL authorization](https://github.com/LCK0629/dify_quertPilot/issues/2) | Security + DB + Backend | Coordinate #1 and #3; sign nonforgeable DB identity/privilege ADR, no caller-asserted scope | BLOCKER |
 | 3 | [#3 PRE-06 Identity/session](https://github.com/LCK0629/dify_quertPilot/issues/3) | Security + Solution Architect | Coordinate #1, #2; verified session, CSRF, bootstrap, revocation, audit, credential lifecycle | OPEN |
 | 4 | [#4 PRE-01 PRD v1.1](https://github.com/LCK0629/dify_quertPilot/issues/4) | PM + BA, Security/DB reviewers | Draft in parallel; full signoff requires #1–3, reconcile ALIGN-01–12 | OPEN |
@@ -74,4 +74,4 @@
 4. Any change to approved business metrics, OD policies, permission grants or database grain requires formal change request and upstream re-review.
 5. The PM will report **approved decisions, drafts, blockers and actual implementation** separately; no invented progress percentages.
 
-**Next active review:** [Security Registry v1.0](24_SECURITY_REGISTRY_DATA_MODEL_V1_0.md) + [independent review notes](25_SECURITY_REGISTRY_REVIEW_NOTES.md) under [Issue #1](https://github.com/LCK0629/dify_quertPilot/issues/1).
+**Latest Security Architect disposition (2026-11-27):** [Formal Security Registry Security Review 29](29_SECURITY_REGISTRY_SECURITY_REVIEW_FOR_APPROVAL.md) submitted under [Issue #1](https://github.com/LCK0629/dify_quertPilot/issues/1), recommending **REVISE & RESUBMIT**. Database Engineer design revisions and Project Owner approval are pending. The document is not QP-APR-009, PRE-04 remains open and Development is NO-GO.
