@@ -99,3 +99,7 @@ Phase 1 **draft documents** and **test specifications** have been prepared. They
 [Document 31 — QP-DEC-SR-REVIEW-002](docs/phase-1/31_SECURITY_REVIEW_V1_1_APPROVAL_RECORD.md) records Project Owner approval of all five Document 29 v1.1 review decisions (RV-D01–RV-D05). The risk-based review framework and design-only DB-R01–DB-R06 revision scope are approved; SG-01–SG-04 remain open. SR-D01–SR-D06, exact DB identity/authorization choices and individual R01–R04 risk acceptances remain pending. Issue #1 remains open. QP-APR-009 and QP-APR-DEV-GO-001 are unissued. **Registry NOT APPROVED; Development NO-GO.**
 
 Next deliverable: Security Registry Data Model v1.1 — For Approval. Independent Security/DB/BA review of the revised exact candidate precedes any separate registry approval. Approved business metrics, OD policies and role matrix remain unchanged. No implementation or tests executed.
+
+## Registry v1.1 limited design disposition — 2026-11-27
+
+[Document 33 — Limited Design Approval Record](docs/phase-1/33_SECURITY_REGISTRY_V1_1_LIMITED_DESIGN_APPROVAL_RECORD.md) (QP-DEC-SR-REVIEW-003) controls over earlier pending-selection statements: SEL-01–04 approved. Model A (16 logical objects) selected; SR-D02 direction and SR-D06 framework approved within limited scope; T1–T5 design revisions authorized. Final registry schema/interfaces, SR-D03–05, AUTH-D01–07, R01–04 and SG-01–04 remain outstanding. PRE-04 remains open. QP-APR-009 and Development GO remain unissued. Preserve approved business and RPM rules; no implementation or tests authorized.
