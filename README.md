@@ -11,7 +11,7 @@
 
 - [Current verified status and next blockers](docs/phase-1/27_STATUS_2026_11_27.md)
 - [Security Registry Data Model v1.0 — Review Notes](docs/phase-1/25_SECURITY_REGISTRY_REVIEW_NOTES.md) — **review draft, not approved**.
-- [Formal Security Registry Security Review — For Approval](docs/phase-1/29_SECURITY_REGISTRY_SECURITY_REVIEW_FOR_APPROVAL.md) — **REVISE & RESUBMIT** recommendation, Owner decision pending; 15-object registry is not approved.
+- [Formal Security Registry Security Review — For Approval](docs/phase-1/29_SECURITY_REGISTRY_SECURITY_REVIEW_FOR_APPROVAL.md) — **REVISE & RESUBMIT** recommendation, Owner accepted REVISE & RESUBMIT; design revisions authorized; 15-object registry is not approved.
 - [PostgreSQL Nonforgeable Authorization ADR — Candidate](docs/phase-1/26_POSTGRESQL_AUTHORIZATION_ADR_CANDIDATE.md) — **proposal only; no selected implementation**.
 
 Owner approvals QP-APR-007 (OD-01–OD-07) and QP-APR-008 (role/permission) are recorded. The 15-object registry, database execution-identity binding, AI provider ADR, full PRD v1.1 and Development GO still require separate decisions and evidence. **No code, DDL, data generation, deployment or implementation tests are authorized.**
@@ -89,3 +89,6 @@ Phase 1 **draft documents** and **test specifications** have been prepared. They
 ---
 
 **Document version:** v0.1 · Initial planning baseline: 2026-11-10. Uploaded documents preserve their original content and draft status.
+## Project Owner review disposition — 2026-11-27
+
+[Project Owner disposition — Document 30](docs/phase-1/30_SECURITY_REGISTRY_REVIEW_DISPOSITION_RECORD.md) records QP-DEC-SR-REVIEW-001: **REVISE & RESUBMIT accepted; design-only DB-R01–DB-R06 authorized.** SR-D01–SR-D06 remain unapproved. Issue #1 remains open pending revised registry v1.1 and independent review. QP-APR-009 and QP-APR-DEV-GO-001 remain unissued. **Development NO-GO.**
