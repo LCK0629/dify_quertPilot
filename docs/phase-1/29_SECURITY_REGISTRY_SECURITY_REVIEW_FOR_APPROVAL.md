@@ -2,7 +2,7 @@
 
 **Document ID:** QP-SEC-SR-REVIEW-001 | **Revision:** 1.1 | **Date:** 2026-11-27 (Asia/Singapore)  
 **Authority:** Security Architect — design review only  
-**Owner disposition:** PENDING — CHANGES REQUIRED on v1.0; revised review submitted for approval  
+**Owner disposition:** APPROVED — RV-D01–RV-D05 (5/5); see [Document 31](31_SECURITY_REVIEW_V1_1_APPROVAL_RECORD.md) for the exact approved review baseline  
 **Registry disposition:** NOT APPROVED; targeted revision and coordinated ADRs required  
 **Development:** NO-GO. No coding, DDL, migrations, data generation, deployed privileges or implementation tests authorized.
 
@@ -189,7 +189,7 @@ Combine DB-R01/R02 in one registry artifact; cross-reference DB-R03/R04 rather t
 
 **Development GO:** Separate written QP-APR-DEV-GO-001 after design and readiness gates resolved. It authorizes implementation and tests, not public access. **Release/demo gate:** after GO, run mandatory tests on isolated synthetic environment, record evidence, resolve critical/high failures or formally approved bounded noncritical residuals, and obtain separate release acceptance. Zero unauthorized disclosures in defined negative suite; no claim of universal security. No tests have run.
 
-## 12. Owner decision requested
+## 12. Owner decision request (historical) and controlling disposition
 
 Approve or revise these review proposals separately:
 - RV-D01: risk-based P0-D / P1-I / R / P2-F classification and stage separation.
@@ -198,6 +198,10 @@ Approve or revise these review proposals separately:
 - RV-D04: retain all approved RPM/OD controls, independent DB boundary and dual approvals; approve residual-risk *review process*, not automatic acceptance.
 - RV-D05: coordinated SG-01–04 design gates and mandatory post-GO release verification.
 
-Recommendation: approve the revised review direction and request targeted registry revision. **Current owner disposition PENDING. Registry NOT APPROVED. Development NO-GO.** No QP-APR-009 or QP-APR-DEV-GO-001 issued. Issues #1–9 remain governed by their own closure evidence.
+Recommendation: approve the revised review direction and request targeted registry revision. **Review owner disposition APPROVED (RV-D01–RV-D05 only). Registry NOT APPROVED. Development NO-GO.** No QP-APR-009 or QP-APR-DEV-GO-001 issued. Issues #1–9 remain governed by their own closure evidence.
 
 References: [PostgreSQL 17 session identity](https://www.postgresql.org/docs/17/functions-info.html), [CREATE FUNCTION security](https://www.postgresql.org/docs/17/sql-createfunction.html), [SET ROLE](https://www.postgresql.org/docs/17/sql-set-role.html), [RLS](https://www.postgresql.org/docs/17/ddl-rowsecurity.html), [FastAPI security](https://fastapi.tiangolo.com/tutorial/security/), [OWASP API Security](https://owasp.org/API-Security/). These are reference pointers, not claims of live verification or tested compatibility.
+
+## 13. Controlling Owner disposition — 2026-11-27
+
+[Document 31 — QP-DEC-SR-REVIEW-002](31_SECURITY_REVIEW_V1_1_APPROVAL_RECORD.md) records Project Owner approval of all five Document 29 v1.1 review decisions (RV-D01–RV-D05). The risk-based review framework and design-only DB-R01–DB-R06 revision scope are approved; SG-01–SG-04 remain open. SR-D01–SR-D06, exact DB identity/authorization choices and individual R01–R04 risk acceptances remain pending. Issue #1 remains open. QP-APR-009 and QP-APR-DEV-GO-001 are unissued. **Registry NOT APPROVED; Development NO-GO.**
