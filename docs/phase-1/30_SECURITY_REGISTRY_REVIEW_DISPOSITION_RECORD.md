@@ -1,9 +1,9 @@
-# Security Registry Security Review — Project Owner Disposition
+# Security Registry Security Review — Project Owner Disposition (Historical)
 
 **Record ID:** QP-DEC-SR-REVIEW-001
 **Date:** 2026-11-27 (Asia/Singapore)
 **Decision authority:** Project Owner
-**Status:** REVIEW RECOMMENDATION APPROVED — REVISE & RESUBMIT
+**Status:** HISTORICAL — original v1.0 disposition superseded by Document 31 for current review
 **Registry status:** NOT APPROVED
 **Development:** NO-GO
 
@@ -42,3 +42,7 @@ All work is design-only; role responsibilities do not imply named engineer assig
 - No implementation code, DDL, migrations, data generation, live grants, deployment or test execution authorized. No security tests claimed passed.
 
 [Formal review](29_SECURITY_REGISTRY_SECURITY_REVIEW_FOR_APPROVAL.md) | [Issue #1](https://github.com/LCK0629/dify_quertPilot/issues/1)
+
+## Subsequent controlling disposition
+
+[Document 31 — QP-DEC-SR-REVIEW-002](31_SECURITY_REVIEW_V1_1_APPROVAL_RECORD.md) records Project Owner approval of all five Document 29 v1.1 review decisions (RV-D01–RV-D05). The risk-based review framework and design-only DB-R01–DB-R06 revision scope are approved; SG-01–SG-04 remain open. SR-D01–SR-D06, exact DB identity/authorization choices and individual R01–R04 risk acceptances remain pending. Issue #1 remains open. QP-APR-009 and QP-APR-DEV-GO-001 are unissued. **Registry NOT APPROVED; Development NO-GO.**
