@@ -1,10 +1,12 @@
 # QueryPilot AI — Phase 1 Planning Pack
 
-**Current status:** 2026-11-26 | Phase 1 — Pre-Development / Decision Closure | **Development NO-GO**
+**Current status:** 2026-11-27 | Phase 1 — Pre-Development / Decision Closure | **Development NO-GO**
 
 QueryPilot AI is a secure retail-focused natural-language analytics workbench. The objective is authorized, reproducible analytics, not arbitrary generated SQL.
 
 ## Follow-up review — 2026-11-27
+
+- [29 Formal Security Registry Security Review — For Approval](29_SECURITY_REGISTRY_SECURITY_REVIEW_FOR_APPROVAL.md) — Security Architect recommends **REVISE & RESUBMIT**; Project Owner disposition pending; no registry approval.
 
 - [25 Security Registry Independent Review](25_SECURITY_REGISTRY_REVIEW_NOTES.md) — SR-D01–D06 review findings and unresolved identity/approval controls; **not approved**.
 - [26 PostgreSQL Authorization ADR Candidate](26_POSTGRESQL_AUTHORIZATION_ADR_CANDIDATE.md) — identity-binding alternatives, recommended test candidate and DBA-01–18 negatives; **not approved**.
@@ -26,7 +28,8 @@ No Development GO has been issued. These review files do not change approved met
 | [21 OD Approval Record](21_OD_DECISION_APPROVAL_RECORD.md) | QP-APR-007; 7/7 policy dispositions approved |
 | [22 Role & Permission Matrix](22_ROLE_PERMISSION_MATRIX_V1_0.md) | Owner-approved design; independent verification pending; not deployed |
 | [23 Role Permission Approval](23_ROLE_PERMISSION_APPROVAL_RECORD.md) | QP-APR-008; 6/6 design recommendations approved |
-| [24 Security Registry Data Model](24_SECURITY_REGISTRY_DATA_MODEL_V1_0.md) | FOR APPROVAL; current review task |
+| [24 Security Registry Data Model](24_SECURITY_REGISTRY_DATA_MODEL_V1_0.md) | FOR APPROVAL; review findings in 29 require revision; not owner-approved |
+| [29 Formal Security Review](29_SECURITY_REGISTRY_SECURITY_REVIEW_FOR_APPROVAL.md) | SECURITY REVIEW COMPLETE, REVISE & RESUBMIT; owner decision pending |
 | [Database Design v1.1 Change Proposal](DB_DESIGN_V1_1_CHANGE_PROPOSAL.md) | Proposed; not a replacement approved design |
 
 Historical draft labels in original review candidates are preserved for traceability; later explicit approval records govern the scope of approval.
@@ -46,7 +49,7 @@ Historical draft labels in original review candidates are preserved for traceabi
 
 1. OD-01–OD-07 owner dispositions recorded; complete independent BA/DB/Security verification.
 2. Role & Permission Matrix owner-approved under QP-APR-008; independent verification pending.
-3. Review document 24 Security Registry Data Model (current task); then identity/session and nonforgeable PostgreSQL authorization ADRs.
+3. Resolve findings in [29 Formal Security Review](29_SECURITY_REGISTRY_SECURITY_REVIEW_FOR_APPROVAL.md) against document 24 through a DB Engineer revision; identity/session and nonforgeable PostgreSQL authorization ADRs remain open.
 4. Review consolidated database v1.1 amendments and Dify/direct adapter/provider decisions.
 5. Reconcile PRD v1.1, evaluation contract, user/competitor research evidence or explicit risk acceptance, and all remaining PRE-01–PRE-10 conditions.
 6. Obtain separate written Development GO (G-01–G-17). QP-APR-DEV-GO-001 is reserved, not issued.
