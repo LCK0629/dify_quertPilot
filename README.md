@@ -11,6 +11,7 @@
 
 - [Current verified status and next blockers](docs/phase-1/27_STATUS_2026_11_27.md)
 - [Security Registry Data Model v1.0 — Review Notes](docs/phase-1/25_SECURITY_REGISTRY_REVIEW_NOTES.md) — **review draft, not approved**.
+- [Formal Security Registry Security Review — For Approval](docs/phase-1/29_SECURITY_REGISTRY_SECURITY_REVIEW_FOR_APPROVAL.md) — **REVISE & RESUBMIT** recommendation, Owner decision pending; 15-object registry is not approved.
 - [PostgreSQL Nonforgeable Authorization ADR — Candidate](docs/phase-1/26_POSTGRESQL_AUTHORIZATION_ADR_CANDIDATE.md) — **proposal only; no selected implementation**.
 
 Owner approvals QP-APR-007 (OD-01–OD-07) and QP-APR-008 (role/permission) are recorded. The 15-object registry, database execution-identity binding, AI provider ADR, full PRD v1.1 and Development GO still require separate decisions and evidence. **No code, DDL, data generation, deployment or implementation tests are authorized.**
