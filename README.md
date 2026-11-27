@@ -7,6 +7,14 @@
 >
 > MVP、指标、数据库设计及开发准备计划基线已批准，系统架构方向附条件批准；七项 OD 政策及角色权限设计已批准；完整 PRD、安全注册表、数据库授权及开发准入仍待审核。
 
+## November 27, 2026 — Decision Closure Follow-up
+
+- [Current verified status and next blockers](docs/phase-1/27_STATUS_2026_11_27.md)
+- [Security Registry Data Model v1.0 — Review Notes](docs/phase-1/25_SECURITY_REGISTRY_REVIEW_NOTES.md) — **review draft, not approved**.
+- [PostgreSQL Nonforgeable Authorization ADR — Candidate](docs/phase-1/26_POSTGRESQL_AUTHORIZATION_ADR_CANDIDATE.md) — **proposal only; no selected implementation**.
+
+Owner approvals QP-APR-007 (OD-01–OD-07) and QP-APR-008 (role/permission) are recorded. The 15-object registry, database execution-identity binding, AI provider ADR, full PRD v1.1 and Development GO still require separate decisions and evidence. **No code, DDL, data generation, deployment or implementation tests are authorized.**
+
 ## Project vision / 项目目标
 
 Enable retail business users to ask questions in everyday language, obtain safe and reproducible PostgreSQL query results, and inspect evidence-grounded analytics.
