@@ -1,5 +1,30 @@
 # QueryPilot AI — Pre-Development Decision Closure Execution Board
 
+## Status update — 2026-11-28 (PM verified; no owner decisions inferred)
+
+**Source:** GitHub `main` latest observed commit `878569bd90c8` (2026-11-27 09:32 UTC / 17:32 SGT). All nine Issues #1–#9 remain OPEN, none assigned to a named GitHub user. These are role owners, not proof of actual engineer availability.
+
+### Newly submitted since the original board
+- [Document 31](31_SECURITY_REVIEW_V1_1_APPROVAL_RECORD.md): Security Review v1.1 decisions RV-D01–RV-D05 **owner approved**, registry still unapproved.
+- [Document 32](32_SECURITY_REGISTRY_DATA_MODEL_V1_1.md): DB Engineer revised Security Registry v1.1; Model A selected with 16 logical objects but full schema **NOT approved**.
+- [Document 33](33_SECURITY_REGISTRY_V1_1_LIMITED_DESIGN_APPROVAL_RECORD.md): SEL-01–SEL-04 **approved in limited scope**; SR-D02 direction and SR-D06 test framework approved, no implementation.
+- [Document 34](34_TARGETED_SECURITY_DESIGN_APPROVAL_RECORD.md): SEC-T1, SEC-T2, AUTH-D01 **Option A selection only**, SEC-T3 and SEC-T4 **limited design approvals**. AUTH-D02–07, T5 and exact contracts remain unapproved.
+- [Document 26](26_POSTGRESQL_AUTHORIZATION_ADR_CANDIDATE.md): **PostgreSQL Authorization ADR v1.0 FOR APPROVAL**, not approved; next reviewers DB Engineer, Backend Engineer, BA and QA.
+- [Document 35](35_IDENTITY_SESSION_TRUSTED_APPROVAL_ADR_V1_0.md): **Identity, Session & Trusted Approval ADR v1.0 FOR APPROVAL**, not approved; next reviewers Solution Architect, Backend Engineer, DB Engineer, BA/QA as relevant.
+
+### Immediate action and roles
+1. **#2 DB authorization:** DB Engineer signs exact mapping/role/routine/privilege analysis; Backend signs single-process trust boundary, session routing, race and handoff semantics; BA checks metric/disclosure contract; QA reviews new DBA oracles. Security Architect reconciles conflicting feedback, Owner separately chooses AUTH-D02–D07 and any residual R01–R04 acceptance. **Not approved yet.**
+2. **#3 Identity/session:** Solution Architect + Backend validate local authentication/session/CSRF, independent reviewer custody, trust manifest, durable quarantine/recovery and audit. DB validates registry implications. Security Architect submits final reviewed ballot for Owner decisions ID-D01–D07 and SR-D03–D05. **Not approved yet.**
+3. **#1 + #5 Registry/DB v1.1:** After #2/#3 contract reconciliation, review precise 16-object schema/FKs/approval integrity, ownership and identity binding; then request separate whole-registry QP-APR-009 disposition. **Not approved yet.**
+4. **#4 + #7:** PM/BA work on PRD v1.1 and T5 output-oracle mapping; QA approves specifications, not claimed test results.
+5. **#6 + #8:** Solution Architect/AI must still produce Dify vs direct API decision; PM/BA must collect user/competitor evidence or obtain explicit limitation acceptance. Neither has recorded new closure evidence.
+6. **#9 final gate:** Remains **DEVELOPMENT NO-GO**. No `QP-APR-009` or `QP-APR-DEV-GO-001` issued, and no physical DDL/implementation/test run is evidenced.
+
+**Management decision:** Do **not** create another comprehensive project plan or redo already approved M01–M09, OD-01–OD-07 or RPM. Obtain independent ADR review and explicit remaining owner decisions first. The final conditional/GO/NO-GO decision must be a later, separately evidenced gate.
+
+---
+
+
 **ID:** QP-PM-EXEC-2026-11-27  
 **Baseline:** 27 November 2026, Asia/Singapore  
 **Project state:** Pre-Development Decision Closure  
