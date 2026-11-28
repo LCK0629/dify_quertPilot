@@ -1,0 +1,27 @@
+name: S1 foundation checks
+
+on:
+  push:
+    branches:
+      - feat/s1-foundation-safe-start
+  pull_request:
+    paths:
+      - "apps/api/**"
+      - ".github/workflows/s1-foundation.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  unit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install S1 test dependencies
+        run: python -m pip install -e "apps/api[dev]"
+      - name: Run offline fail-closed tests
+        run: cd apps/api && python -m pytest -q
